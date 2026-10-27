@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# lockfile: this package ships no runtime tree of its own,
+# and the Harness profile owns the real lockfile
+package-lock.json
+pnpm-lock.yaml
+
+# packed artifacts
+*.tgz
+
+# editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

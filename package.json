@@ -1,0 +1,68 @@
+{
+  "name": "dsh-ding",
+  "version": "1.0.0",
+  "description": "Play a sound when a DeepSeek Harness turn finishes, needs your reply, or fails. Ships with preset chimes and a settings page.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "cordis",
+    "notification",
+    "sound",
+    "audio",
+    "alert",
+    "chime"
+  ],
+  "homepage": "https://github.com/SAOS-3624/dsh-ding#readme",
+  "bugs": {
+    "url": "https://github.com/SAOS-3624/dsh-ding/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SAOS-3624/dsh-ding.git"
+  },
+  "author": "SAOS-3624",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "locale",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5"
+  },
+  "scripts": {
+    "test": "node --test test/plugin.test.mjs",
+    "check": "node --check lib/index.js && node --check lib/client.js",
+    "gen:sounds": "python scripts/generate-sounds.py"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Syntax check
+        run: npm run check
+
+      - name: Client locale block is current
+        run: node scripts/build-client.mjs --check
+
+      - name: Tests
+        run: npm test
+
+      - name: Packed file list is complete
+        run: |
+          npm pack --dry-run 2>&1 | tee pack.txt
+          for f in lib/index.js lib/client.js cordis.patch.yml icon.svg \
+                   locale/en.json locale/zh.json assets/sounds/zcode.wav; do
+            grep -q "$f" pack.txt || { echo "missing from package: $f"; exit 1; }
+          done

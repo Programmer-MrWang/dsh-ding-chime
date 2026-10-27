@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DSH Ding">
+  <defs>
+    <linearGradient id="bellBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd479"/>
+      <stop offset="1" stop-color="#e2903a"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 9c-8.1 0-14 6.4-14 14.5v9.8l-4.4 7.5a2.7 2.7 0 0 0 2.3 4.2h32.2a2.7 2.7 0 0 0 2.3-4.2L46 33.3v-9.8C46 15.4 40.1 9 32 9Z" fill="url(#bellBody)"/>
+  <rect x="27" y="46.5" width="10" height="4.2" rx="2.1" fill="#d98528"/>
+  <path d="M32 54.5a5.4 5.4 0 0 0 5-3.2H27a5.4 5.4 0 0 0 5 3.2Z" fill="#bd6f1f"/>
+  <g stroke="#8fc4f5" stroke-width="3.4" stroke-linecap="round" opacity=".9">
+    <path d="M16 15.5 9.5 9"/>
+    <path d="M48 15.5 54.5 9"/>
+    <path d="M11 28.5H3.5"/>
+    <path d="M53 28.5h7.5"/>
+  </g>
+</svg>

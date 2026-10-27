@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "title": "DSH Ding 提示音",
+    "description": "一轮任务结束、需要你回复、或因错误终止时播放提示音；内置多段音频可选，也可指定自己的音频文件。"
+  },
+  "page": {
+    "title": "DSH Ding 提示音",
+    "subtitle": "任务事件提示音"
+  },
+  "section": {
+    "triggers": "什么时候响",
+    "sound": "音频",
+    "advanced": "高级"
+  },
+  "field": {
+    "enabled": {
+      "label": "启用 DSH Ding",
+      "hint": "关掉所有提示音，但不用卸载插件。"
+    },
+    "completed": {
+      "label": "任务完成",
+      "hint": "一轮任务正常结束时播放。"
+    },
+    "needsReply": {
+      "label": "需要你回复",
+      "hint": "模型向你提问，或工具调用需要审批时播放。"
+    },
+    "failed": {
+      "label": "因错误终止",
+      "hint": "出错或模型输出被 token 上限截断时播放。"
+    },
+    "aborted": {
+      "label": "你自己中断",
+      "hint": "你手动停止这一轮时播放。"
+    },
+    "topLevelOnly": {
+      "label": "忽略子代理",
+      "hint": "子任务结束时不出声，避免连着响。"
+    },
+    "soundPreset": {
+      "label": "提示音",
+      "hint": "从内置音频里选一段。"
+    },
+    "soundPath": {
+      "label": "自定义音频文件",
+      "hint": "wav、mp3、flac 等格式的绝对路径。填了就会覆盖上面选的内置音频。"
+    },
+    "volume": {
+      "label": "音量",
+      "hint": "0 到 100。"
+    },
+    "command": {
+      "label": "自定义播放命令",
+      "hint": "高级选项，换用别的播放器。{file} 会替换成音频路径。"
+    }
+  },
+  "preset": {
+    "ding": "叮",
+    "chime": "风铃",
+    "soft": "柔和",
+    "alert": "提醒",
+    "error": "报错",
+    "zcode": "Zcode 提示音"
+  },
+  "presetDescription": {
+    "ding": "一声清脆的叮。",
+    "chime": "三声上行的钟琴音。",
+    "soft": "两声柔和的下行音。",
+    "alert": "三声紧凑的提醒。",
+    "error": "下行小调两音，明确但不刺耳。",
+    "zcode": "Zcode 的短促提示音。"
+  },
+  "action": {
+    "preview": "试听",
+    "reset": "恢复默认",
+    "save": "保存",
+    "saving": "保存中…",
+    "saved": "已保存",
+    "saveFailed": "保存失败：{message}"
+  },
+  "status": {
+    "loading": "正在读取设置…",
+    "customMissing": "这个文件不存在，实际会用下面选中的内置音频。",
+    "usingCustom": "正在使用你的自定义音频。"
+  }
+}

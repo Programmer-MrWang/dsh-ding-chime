@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "title": "DSH Ding",
+    "description": "Play a sound when a turn finishes, when the agent needs your reply, or when a turn fails. Pick a bundled chime or your own audio file."
+  },
+  "page": {
+    "title": "DSH Ding",
+    "subtitle": "Sounds for turn events"
+  },
+  "section": {
+    "triggers": "When to play",
+    "sound": "Sound",
+    "advanced": "Advanced"
+  },
+  "field": {
+    "enabled": {
+      "label": "Enable DSH Ding",
+      "hint": "Turn every chime off without uninstalling the plugin."
+    },
+    "completed": {
+      "label": "Turn finished",
+      "hint": "Play when a turn completes normally."
+    },
+    "needsReply": {
+      "label": "Needs your reply",
+      "hint": "Play when the agent asks a question or a tool needs approval."
+    },
+    "failed": {
+      "label": "Turn failed",
+      "hint": "Play on an error or when the model runs out of tokens."
+    },
+    "aborted": {
+      "label": "You interrupted it",
+      "hint": "Play when you stop the turn yourself."
+    },
+    "topLevelOnly": {
+      "label": "Ignore subagents",
+      "hint": "Skip chimes from delegated subagent work."
+    },
+    "soundPreset": {
+      "label": "Chime",
+      "hint": "Pick one of the bundled sounds."
+    },
+    "soundPath": {
+      "label": "Custom audio file",
+      "hint": "Absolute path to a wav, mp3 or flac file. Overrides the chime above when set."
+    },
+    "volume": {
+      "label": "Volume",
+      "hint": "0 to 100."
+    },
+    "command": {
+      "label": "Custom player command",
+      "hint": "Advanced. {file} is replaced with the audio path."
+    }
+  },
+  "preset": {
+    "ding": "Ding",
+    "chime": "Chime",
+    "soft": "Soft",
+    "alert": "Alert",
+    "error": "Error",
+    "zcode": "Zcode"
+  },
+  "presetDescription": {
+    "ding": "One crisp note.",
+    "chime": "Three rising bells.",
+    "soft": "Two gentle falling notes.",
+    "alert": "Three short urgent beeps.",
+    "error": "Falling minor two-tone.",
+    "zcode": "The short Zcode notification blip."
+  },
+  "action": {
+    "preview": "Preview",
+    "reset": "Reset to defaults",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "saveFailed": "Could not save: {message}"
+  },
+  "status": {
+    "loading": "Loading settings…",
+    "customMissing": "That file does not exist; the chime below is used instead.",
+    "usingCustom": "Using your custom file."
+  }
+}
