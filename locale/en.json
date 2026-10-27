@@ -81,6 +81,10 @@
   "status": {
     "loading": "Loading settings…",
     "customMissing": "That file does not exist; the chime below is used instead.",
-    "usingCustom": "Using your custom file."
+    "usingCustom": "Using your custom file.",
+    "noSettings": "The settings service is unavailable, so this page cannot read or save values.",
+    "noNamespace": "This plugin's configuration namespace was not found. Re-enable the plugin to recreate it.",
+    "readFailed": "Could not read settings: {message}",
+    "readOnly": "Saved by this plugin but not written by the Harness settings service; changes may not persist."
   }
 }

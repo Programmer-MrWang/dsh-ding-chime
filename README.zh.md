@@ -50,6 +50,20 @@ dsh plugin add dsh-ding
 
 六段全部为原创合成（`scripts/generate-sounds.py`，正弦/三角波加指数衰减包络），不含任何第三方采样，所以 MIT 许可覆盖整个包。每个文件都是 16-bit PCM 单声道 WAV，这也意味着 Windows 的 `SoundPlayer` 兜底一定能播。
 
+## 设置页怎么和 Host 通信
+
+设置页是插件自己提供的普通 JavaScript，通过 Host 注册的三条同源路由交换数据：
+
+| 路由 | 用途 |
+|---|---|
+| `GET /dsh-ding/config` | 读取当前配置，以及 profile 是否允许写入 |
+| `POST /dsh-ding/config` | 把改动合并进已保存的配置 |
+| `POST /dsh-ding/preview` | 在跑 Harness 的那台机器上播放提示音 |
+
+写入走 Harness 自带的 `configEditor`，所以值会落到 profile 的 `cordis.patch.yml`，重启和升级都不会丢。试听是在 Host 端播放而不是浏览器里播，所以标签页在后台时照样能响。
+
+这样绕开生成的 Remote 绑定，浏览器端不需要 codegen，换 Harness 版本也不会失效。
+
 ## 播放方式
 
 不用你额外装运行时，闲置时也不占任何资源：

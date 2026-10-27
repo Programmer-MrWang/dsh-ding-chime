@@ -81,6 +81,10 @@
   "status": {
     "loading": "正在读取设置…",
     "customMissing": "这个文件不存在，实际会用下面选中的内置音频。",
-    "usingCustom": "正在使用你的自定义音频。"
+    "usingCustom": "正在使用你的自定义音频。",
+    "noSettings": "设置服务不可用，这一页无法读取或保存配置。",
+    "noNamespace": "找不到本插件的配置命名空间，请重新启用插件以重建。",
+    "readFailed": "读取设置失败：{message}",
+    "readOnly": "这份配置不由宿主设置服务写入，改动可能不会持久保存。"
   }
 }

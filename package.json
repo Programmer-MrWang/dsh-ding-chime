@@ -45,12 +45,21 @@
   "engines": {
     "node": ">=20"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/schemastery": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
     "@deepseek-ai/schemastery": "^3.18.5"
   },
   "scripts": {
-    "test": "node --test test/plugin.test.mjs",
-    "check": "node --check lib/index.js && node --check lib/client.js",
+    "test": "node --test test/plugin.test.mjs test/client-render.test.mjs test/routes.test.mjs",
+    "check": "node --check lib/index.js && node --check lib/client.js && node scripts/build-client.mjs --check",
+    "build": "node scripts/build-client.mjs",
     "gen:sounds": "python scripts/generate-sounds.py"
   },
   "dsh": {

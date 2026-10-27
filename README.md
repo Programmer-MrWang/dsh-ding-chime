@@ -50,6 +50,20 @@ The plugin adds a page to **Settings** (after Cost meter). Everything is editabl
 
 All six are original synthesis (`scripts/generate-sounds.py`, sine/triangle waves with an exponential decay envelope). No third-party samples, so the MIT license covers the whole package. Every file is 16-bit PCM mono WAV, which also means the Windows `SoundPlayer` fallback can always play them.
 
+## How the settings page talks to the Host
+
+The page is plain JavaScript served by the plugin itself, and it exchanges data over three same-origin routes the Host registers:
+
+| Route | Purpose |
+|---|---|
+| `GET /dsh-ding/config` | current values plus whether the profile accepts writes |
+| `POST /dsh-ding/config` | merge a patch into the stored configuration |
+| `POST /dsh-ding/preview` | play a chime on the machine running the Harness |
+
+Writes go through the Harness's own `configEditor`, so they land in your profile's `cordis.patch.yml` and survive restarts and upgrades. Preview plays on the Host rather than in the browser, which is why a chime still rings when the tab is in the background.
+
+Routing the page this way keeps the browser half free of generated Remote bindings, so the plugin keeps working across Harness releases without codegen.
+
 ## How it plays audio
 
 Nothing is bundled with a runtime to install, and nothing runs while idle:
