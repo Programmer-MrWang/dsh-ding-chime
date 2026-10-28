@@ -81,7 +81,9 @@ function makeCtx({ rows = [], writable = true } = {}) {
 
 /** A row as the Loader exposes it. */
 function makeRow(config) {
-  return { options: { id: 'dsh-ding', name: 'dsh-ding', config } }
+  // The row id is this plugin's own key (`dsh-ding`); the specifier is the npm
+  // package name (`dsh-ding-chime`).
+  return { options: { id: 'dsh-ding', name: 'dsh-ding-chime', config } }
 }
 
 const BASE = 'http://127.0.0.1:1234'

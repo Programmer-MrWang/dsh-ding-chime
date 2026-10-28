@@ -1,5 +1,5 @@
 {
-  "name": "dsh-ding",
+  "name": "dsh-ding-chime",
   "version": "1.0.0",
   "description": "Play a sound when a DeepSeek Harness turn finishes, needs your reply, or fails. Ships with preset chimes and a settings page.",
   "keywords": [
@@ -14,15 +14,15 @@
     "alert",
     "chime"
   ],
-  "homepage": "https://github.com/SAOS-3624/dsh-ding#readme",
+  "homepage": "https://github.com/Programmer-MrWang/dsh-ding#readme",
   "bugs": {
-    "url": "https://github.com/SAOS-3624/dsh-ding/issues"
+    "url": "https://github.com/Programmer-MrWang/dsh-ding/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SAOS-3624/dsh-ding.git"
+    "url": "git+https://github.com/Programmer-MrWang/dsh-ding.git"
   },
-  "author": "SAOS-3624",
+  "author": "Wang Haoyu (Programmer-MrWang)",
   "license": "MIT",
   "type": "module",
   "main": "./lib/index.js",

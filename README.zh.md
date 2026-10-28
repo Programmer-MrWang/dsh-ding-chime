@@ -1,4 +1,4 @@
-# dsh-ding
+# dsh-ding-chime
 
 DeepSeek Harness 提示音插件：一轮任务结束、需要你回复、或因错误终止时响一声，你可以放心离开屏幕。
 
@@ -21,10 +21,10 @@ skill 是给模型看的说明书，只在模型**正在跑**且主动加载时�
 ## 安装
 
 ```bash
-dsh plugin add dsh-ding
+dsh plugin add dsh-ding-chime
 ```
 
-或在 Web UI 里：**设置 → 插件 → 发现**，搜索 `dsh-ding`。
+或在 Web UI 里：**设置 → 插件 → 发现**，搜索 `dsh-ding-chime`。
 
 ## 设置页
 
@@ -82,7 +82,7 @@ dsh plugin add dsh-ding
 
 ```yaml
 - id: dsh-ding
-  name: dsh-ding
+  name: dsh-ding-chime
   config:
     enabled: true
     completed: true

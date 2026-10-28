@@ -1,4 +1,4 @@
-# dsh-ding
+# dsh-ding-chime
 
 Get a sound when DeepSeek Harness finishes a turn, needs your reply, or fails — so you can walk away from the screen.
 
@@ -21,10 +21,10 @@ You can turn each of these off independently. Subagent turns are ignored by defa
 ## Install
 
 ```bash
-dsh plugin add dsh-ding
+dsh plugin add dsh-ding-chime
 ```
 
-Or from the Web UI: **Settings → Plugins → Discover**, then search for `dsh-ding`.
+Or from the Web UI: **Settings → Plugins → Discover**, then search for `dsh-ding-chime`.
 
 ## Settings page
 
@@ -82,7 +82,7 @@ The settings page writes this for you. If you prefer YAML, in your profile's `co
 
 ```yaml
 - id: dsh-ding
-  name: dsh-ding
+  name: dsh-ding-chime
   config:
     enabled: true
     completed: true
