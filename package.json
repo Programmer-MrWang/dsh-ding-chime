@@ -12,7 +12,8 @@
     "sound",
     "audio",
     "alert",
-    "chime"
+    "chime",
+    "windows"
   ],
   "homepage": "https://github.com/Programmer-MrWang/dsh-ding#readme",
   "bugs": {
@@ -40,7 +41,9 @@
     "cordis.patch.yml",
     "README.md",
     "README.zh.md",
-    "LICENSE"
+    "LICENSE",
+    "docs",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=20"
@@ -50,7 +53,7 @@
   },
   "scripts": {
     "test": "node --test test/plugin.test.mjs test/client-render.test.mjs test/routes.test.mjs",
-    "check": "node --check lib/index.js && node --check lib/client.js && node scripts/build-client.mjs --check",
+    "check": "node --check lib/index.js && node --check lib/client.js && node scripts/build-client.mjs --check && node scripts/check-identity.mjs",
     "build": "node scripts/build-client.mjs",
     "gen:sounds": "python scripts/generate-sounds.py"
   },
@@ -65,5 +68,8 @@
         "@deepseek-ai/dsh-client-ui-settings"
       ]
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

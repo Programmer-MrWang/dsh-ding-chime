@@ -1,8 +1,19 @@
 # dsh-ding-chime
 
+[![npm](https://img.shields.io/npm/v/dsh-ding-chime.svg)](https://www.npmjs.com/package/dsh-ding-chime)
+[![ci](https://github.com/Programmer-MrWang/dsh-ding/actions/workflows/ci.yml/badge.svg)](https://github.com/Programmer-MrWang/dsh-ding/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/dsh-ding-chime.svg)](LICENSE)
+
 Get a sound when DeepSeek Harness finishes a turn, needs your reply, or fails — so you can walk away from the screen.
 
 [中文说明](README.zh.md)
+
+<p align="center">
+  <img src="docs/settings-page.png" alt="The DSH Ding settings page" width="620">
+</p>
+
+> **Note on the name.** The npm package is `dsh-ding-chime` because `dsh-ding` was
+> already taken by an unrelated plugin. Install and search for `dsh-ding-chime`.
 
 ## Why a plugin and not a skill
 
