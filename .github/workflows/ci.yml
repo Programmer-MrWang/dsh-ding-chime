@@ -18,11 +18,8 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
-      - name: Syntax check
+      - name: Syntax, locale and identity checks
         run: npm run check
-
-      - name: Client locale block is current
-        run: node scripts/build-client.mjs --check
 
       - name: Tests
         run: npm test
@@ -31,6 +28,23 @@ jobs:
         run: |
           npm pack --dry-run 2>&1 | tee pack.txt
           for f in lib/index.js lib/client.js cordis.patch.yml icon.svg \
-                   locale/en.json locale/zh.json assets/sounds/zcode.wav; do
+                   locale/en.json locale/zh.json assets/sounds/zcode.wav \
+                   docs/settings-page.png CHANGELOG.md README.md README.zh.md LICENSE; do
             grep -q "$f" pack.txt || { echo "missing from package: $f"; exit 1; }
           done
+
+      - name: Package installs and loads from the tarball
+        run: |
+          tmp="$(mktemp -d)"
+          npm pack --pack-destination "$tmp"
+          cd "$tmp" && npm init -y >/dev/null && npm install ./dsh-ding-chime-1.0.0.tgz --no-audit --no-fund
+          node -e "
+            import('./node_modules/dsh-ding-chime/lib/index.js').then((m) => {
+              if (m.name !== 'dsh-ding-chime') throw new Error('unexpected name: ' + m.name);
+              const c = m.Config({});
+              if (c.soundPreset !== 'zcode') throw new Error('Config defaults are wrong');
+              if (!require('fs').existsSync(m.presetPath('zcode'))) throw new Error('bundled audio missing');
+              console.log('packed package loads and its audio is present');
+            }).catch((e) => { console.error(e); process.exit(1); });
+          "
+
