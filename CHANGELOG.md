@@ -29,7 +29,5 @@ First public release.
 
 ### Notes
 
-- The npm package is `dsh-ding-chime`; the name `dsh-ding` was already taken by
-  an unrelated plugin.
 - Idle cost is zero: no daemon, no polling, no timers. Each chime starts one
   short-lived player process and lets it exit.

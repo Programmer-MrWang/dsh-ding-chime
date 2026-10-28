@@ -15,13 +15,13 @@
     "chime",
     "windows"
   ],
-  "homepage": "https://github.com/Programmer-MrWang/dsh-ding#readme",
+  "homepage": "https://github.com/Programmer-MrWang/dsh-ding-chime#readme",
   "bugs": {
-    "url": "https://github.com/Programmer-MrWang/dsh-ding/issues"
+    "url": "https://github.com/Programmer-MrWang/dsh-ding-chime/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Programmer-MrWang/dsh-ding.git"
+    "url": "git+https://github.com/Programmer-MrWang/dsh-ding-chime.git"
   },
   "author": "Wang Haoyu (Programmer-MrWang)",
   "license": "MIT",
