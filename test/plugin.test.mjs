@@ -18,6 +18,9 @@ import {
   findFfplay,
   play,
   playOnce,
+  isBeingViewed,
+  presence,
+  PRESENCE_TTL_MS,
   PRESETS,
   PRESET_IDS,
   DEFAULTS,
@@ -27,6 +30,13 @@ import {
 
 const SOUNDS_DIR = fileURLToPath(new URL('../assets/sounds/', import.meta.url))
 const { playing, resetCaches } = __test__
+
+/** Mark the browser as focused on one session, as its presence report would. */
+function viewSession(sessionId, focused = true) {
+  presence.sessionId = focused ? sessionId : undefined
+  presence.focused = focused
+  presence.at = Date.now()
+}
 
 /** Wait until no stand-in player process is still tracked. */
 async function drainPlayers(timeoutMs = 3000) {
@@ -315,4 +325,131 @@ test('unloading cleans up without throwing', () => {
   const { ctx, disposeAll } = makeCtx()
   apply(ctx, { command: 'node -e process.exit(0) {file}' })
   assert.doesNotThrow(() => disposeAll())
+})
+
+// ---------------------------------------------------------------- quiet-on-viewing
+
+test('quietOnViewing defaults to on', () => {
+  assert.equal(normalize({}).quietOnViewing, true)
+})
+
+test('isBeingViewed is false when nothing is focused', () => {
+  resetCaches()
+  assert.equal(isBeingViewed('s1', normalize({})), false)
+})
+
+test('isBeingViewed is true only for the focused session', () => {
+  resetCaches()
+  viewSession('s1')
+  assert.equal(isBeingViewed('s1', normalize({})), true)
+  assert.equal(isBeingViewed('s2', normalize({})), false)
+})
+
+test('isBeingViewed is false while the window is unfocused', () => {
+  resetCaches()
+  viewSession('s1', false)
+  assert.equal(isBeingViewed('s1', normalize({})), false)
+})
+
+test('a stale presence report is ignored', () => {
+  resetCaches()
+  presence.sessionId = 's1'
+  presence.focused = true
+  presence.at = Date.now() - PRESENCE_TTL_MS - 1
+  assert.equal(isBeingViewed('s1', normalize({})), false, 'a dead tab must not silence the plugin forever')
+})
+
+test('the setting turns the behaviour off entirely', () => {
+  resetCaches()
+  viewSession('s1')
+  assert.equal(isBeingViewed('s1', normalize({ quietOnViewing: false })), false)
+})
+
+test('a completed turn stays silent when you are viewing that session', async () => {
+  resetCaches()
+  await drainPlayers()
+  const { ctx, listeners } = makeCtx()
+  apply(ctx, SILENT)
+  viewSession('top')
+  listeners.get('session/event')[0](
+    { id: 'top', header: header() },
+    { type: 'turn/end', seq: 1, time: 0, data: { turn: 1, reason: { kind: 'completed' } } },
+  )
+  assert.equal(playing.size, 0, 'no chime while you are already looking at it')
+  resetCaches()
+})
+
+test('a completed turn rings when you are viewing a different session', async () => {
+  resetCaches()
+  await drainPlayers()
+  const { ctx, listeners } = makeCtx()
+  apply(ctx, SILENT)
+  viewSession('other-session')
+  listeners.get('session/event')[0](
+    { id: 'top', header: header() },
+    { type: 'turn/end', seq: 1, time: 0, data: { turn: 1, reason: { kind: 'completed' } } },
+  )
+  assert.ok(playing.size > 0, 'another conversation finishing still chimes')
+  await drainPlayers()
+  resetCaches()
+})
+
+test('a completed turn rings when the window is unfocused', async () => {
+  resetCaches()
+  await drainPlayers()
+  const { ctx, listeners } = makeCtx()
+  apply(ctx, SILENT)
+  viewSession('top', false)
+  listeners.get('session/event')[0](
+    { id: 'top', header: header() },
+    { type: 'turn/end', seq: 1, time: 0, data: { turn: 1, reason: { kind: 'completed' } } },
+  )
+  assert.ok(playing.size > 0, 'switching away re-enables chimes')
+  await drainPlayers()
+  resetCaches()
+})
+
+test('a question stays silent while you are viewing that session', async () => {
+  resetCaches()
+  await drainPlayers()
+  const { ctx, listeners } = makeCtx()
+  apply(ctx, SILENT)
+  viewSession('top')
+  let called = false
+  await listeners.get('user-questions/request')[0](
+    { questions: [{ id: 'q1', question: 'go?' }], agent: { id: 'top' } },
+    async () => { called = true; return { answers: [] } },
+  )
+  assert.equal(called, true, 'the waterfall must still be passed through')
+  assert.equal(playing.size, 0, 'no chime for the conversation on screen')
+  resetCaches()
+})
+
+test('a failure stays silent while you are viewing that session', async () => {
+  resetCaches()
+  await drainPlayers()
+  const { ctx, listeners } = makeCtx()
+  apply(ctx, SILENT)
+  viewSession('top')
+  listeners.get('session/event')[0](
+    { id: 'top', header: header() },
+    { type: 'turn/end', seq: 1, time: 0, data: { turn: 1, reason: { kind: 'error', error: { code: 'x', message: 'boom' } } } },
+  )
+  assert.equal(playing.size, 0)
+  resetCaches()
+})
+
+test('quietOnViewing can be configured off', async () => {
+  resetCaches()
+  await drainPlayers()
+  const { ctx, listeners } = makeCtx()
+  apply(ctx, { ...SILENT, quietOnViewing: false })
+  viewSession('top')
+  listeners.get('session/event')[0](
+    { id: 'top', header: header() },
+    { type: 'turn/end', seq: 1, time: 0, data: { turn: 1, reason: { kind: 'completed' } } },
+  )
+  assert.ok(playing.size > 0, 'the user asked to always hear it')
+  await drainPlayers()
+  resetCaches()
 })

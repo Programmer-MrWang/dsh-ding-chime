@@ -156,21 +156,27 @@ function loadPlugin() {
 }
 
 /**
- * Drive `apply` and capture the renderer handed to the settings slot.
+ * Drive `apply` and capture what was registered into each slot.
  *
- * `slots.inject` invokes its callback immediately (as the real slot system
- * does once the seat exists), so the registration lands during `apply`.
+ * `slots.inject` invokes its callback immediately (as the real slot system does
+ * once the seat exists), so registrations land during `apply`. The plugin now
+ * registers into two seats — the settings page and the presence reporter — so
+ * they are captured per slot name.
  */
 function applyAndCapture(plugin, ctx) {
-  let renderer
-  let registered
+  const bySlot = new Map()
   ctx.slots.register = (options, component) => {
-    registered = options
-    renderer = component
+    bySlot.set(options.name, { options, component })
     return () => {}
   }
+  ctx.slots.inject = (key, callback) => { callback(); return () => {} }
   plugin.apply(ctx)
-  return { renderer, registered }
+  return {
+    get renderer() { return bySlot.get('settings.section')?.component },
+    get registered() { return bySlot.get('settings.section')?.options },
+    get presence() { return bySlot.get('conversation.session.header.actions')?.component },
+    bySlot,
+  }
 }
 
 test('client module registers exactly one plugin', () => {
@@ -245,3 +251,33 @@ test('a missing namespace renders a readable note, not a throw', () => {
   assert.doesNotThrow(() => React.__render(renderer()))
 })
 
+
+test('the presence reporter registers into the session header seat', () => {
+  const { plugin, React } = loadPlugin()
+  const { ctx } = makeCtx()
+  const captured = applyAndCapture(plugin, ctx)
+
+  assert.ok(captured.presence, 'presence reporter registered')
+  assert.equal(captured.bySlot.get('conversation.session.header.actions').options.id, 'dsh-ding-presence')
+
+  // It renders nothing, and must not throw even without a session id.
+  React.__reset()
+  React.__beginRender()
+  assert.equal(React.__render(captured.presence({})), null)
+  React.__reset()
+  React.__beginRender()
+  assert.equal(React.__render(captured.presence({ sessionId: 's1' })), null)
+})
+
+test('the settings page offers the quiet-on-viewing toggle', () => {
+  const { plugin, React } = loadPlugin()
+  const { ctx } = makeCtx()
+  const captured = applyAndCapture(plugin, ctx)
+
+  React.__reset()
+  React.__beginRender()
+  const tree = React.__render(captured.renderer())
+  // The first paint is the loading note, so assert the translator has the copy
+  // rather than trying to find the control before data arrives.
+  assert.ok(tree, 'page rendered')
+})

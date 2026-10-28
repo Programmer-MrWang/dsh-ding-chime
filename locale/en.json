@@ -37,6 +37,10 @@
       "label": "Ignore subagents",
       "hint": "Skip chimes from delegated subagent work."
     },
+    "quietOnViewing": {
+      "label": "Quiet while viewing",
+      "hint": "Stay silent when the finished conversation is the one already on your screen in a focused window."
+    },
     "soundPreset": {
       "label": "Chime",
       "hint": "Pick one of the bundled sounds."
